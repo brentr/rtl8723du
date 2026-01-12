@@ -12,7 +12,7 @@
  * Wi-Fi Functions Configure
  */
 
-// #define CONFIG_CONCURRENT_MODE
+#define CONFIG_CONCURRENT_MODE
 
 #ifdef CONFIG_CONCURRENT_MODE
 	#define CONFIG_TSF_RESET_OFFLOAD			/* For 2 PORT TSF SYNC. */
@@ -47,7 +47,7 @@
 /*
  * Debug Related Configure
  */
-#define CONFIG_DEBUG /* DBG_871X, etc... */
+//#define CONFIG_DEBUG /* DBG_871X, etc... */
 #ifdef CONFIG_DEBUG
 	#define DBG	1	/* for ODM & BTCOEX debug */
 	#define DBG_PHYDM_MORE 0

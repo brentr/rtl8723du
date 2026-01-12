@@ -1,6 +1,6 @@
-$(info echo "WARNING: This driver is obsolete. Use http://github.com/lwfinger/rtw88.git instead")
+#$(info echo "WARNING: This driver is obsolete. Use http://github.com/lwfinger/rtw88.git instead")
 EXTRA_CFLAGS += $(USER_EXTRA_CFLAGS)
-EXTRA_CFLAGS += -O1
+EXTRA_CFLAGS += -Os
 
 GCC_VER_49 := $(shell echo `$(CC) -dumpversion | cut -f1-2 -d.` \>= 4.9 | bc )
 ifeq ($(GCC_VER_49),1)
@@ -9,7 +9,7 @@ endif
 
 EXTRA_CFLAGS += -I$(src)/include
 
-#EXTRA_LDFLAGS += --strip-debug
+EXTRA_LDFLAGS += --strip-debug
 
 ifeq ("","$(wildcard MOK.der)")
 NO_SKIP_SIGN := y
@@ -178,7 +178,7 @@ rtk_core :=	core/rtw_cmd.o \
 		core/rtw_btcoex.o \
 		core/rtw_odm.o \
 		core/rtw_rm.o \
-		core/rtw_efuse.o 
+		core/rtw_efuse.o
 
 $(MODULE_NAME)-y += $(rtk_core)
 
@@ -204,7 +204,7 @@ strip:
 
 install:
 	install -p -m 644 $(MODULE_NAME).ko  $(MODDESTDIR)
-	/sbin/depmod -a ${KVER}
+#	/sbin/depmod -a ${KVER}
 
 uninstall:
 	rm -f $(MODDESTDIR)/$(MODULE_NAME).ko

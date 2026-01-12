@@ -134,7 +134,7 @@ static u8 rtw_chbw_to_cfg80211_chan_def(struct wiphy *wiphy, struct cfg80211_cha
 	if (!chan)
 		goto exit;
 
-	if (bw == CHANNEL_WIDTH_20) 
+	if (bw == CHANNEL_WIDTH_20)
 		chdef->width = ht ? NL80211_CHAN_WIDTH_20 : NL80211_CHAN_WIDTH_20_NOHT;
 	else if (bw == CHANNEL_WIDTH_40)
 		chdef->width = NL80211_CHAN_WIDTH_40;
@@ -1192,8 +1192,8 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
 						memcpy(adapt->securitypriv.dot118021XGrptxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[16]), 8);
 						memcpy(adapt->securitypriv.dot118021XGrprxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[24]), 8);
 						adapt->securitypriv.binstallGrpkey = true;
-						if (param->u.crypt.idx < 4) 
-							memcpy(adapt->securitypriv.iv_seq[param->u.crypt.idx], param->u.crypt.seq, 8);							
+						if (param->u.crypt.idx < 4)
+							memcpy(adapt->securitypriv.iv_seq[param->u.crypt.idx], param->u.crypt.seq, 8);
 						adapt->securitypriv.dot118021XGrpKeyid = param->u.crypt.idx;
 						rtw_set_key(adapt, &adapt->securitypriv, param->u.crypt.idx, 1, true);
 
@@ -1403,7 +1403,7 @@ static int cfg80211_rtw_get_key(struct wiphy *wiphy, struct net_device *ndev
 		#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 37)) || defined(COMPAT_KERNEL_RELEASE)
 		|| (MLME_IS_STA(adapter) && !pairwise)
 		#endif
-	) {	
+	) {
 		/* WEP key, TX GTK/IGTK, RX GTK/IGTK(for STA mode) */
 		if (is_wep_enc(sec->dot118021XGrpPrivacy)) {
 			if (keyid >= WEP_KEYS)
@@ -1477,7 +1477,7 @@ static int cfg80211_rtw_get_key(struct wiphy *wiphy, struct net_device *ndev
 	}
 
 	ret = 0;
-	
+
 exit:
 	RTW_INFO(FUNC_NDEV_FMT
 		GET_KEY_PARAM_FMT_S
@@ -2770,6 +2770,7 @@ static int cfg80211_rtw_leave_ibss(struct wiphy *wiphy, struct net_device *ndev)
 {
 	struct adapter *adapt = (struct adapter *)rtw_netdev_priv(ndev);
 	struct wireless_dev *rtw_wdev = adapt->rtw_wdev;
+	struct rtw_wdev_priv *pwdev_priv = adapter_wdev_data(adapt);
 	enum nl80211_iftype old_type;
 	int ret = 0;
 
@@ -2796,7 +2797,7 @@ static int cfg80211_rtw_leave_ibss(struct wiphy *wiphy, struct net_device *ndev)
 	}
 
 leave_ibss:
-	rtw_wdev_set_not_indic_disco(pwdev_priv, 0);
+//FIX_ME	rtw_wdev_set_not_indic_disco(pwdev_priv, 0);
 
 	return 0;
 }
@@ -3014,6 +3015,7 @@ static int cfg80211_rtw_disconnect(struct wiphy *wiphy, struct net_device *ndev,
 				   u16 reason_code)
 {
 	struct adapter *adapt = (struct adapter *)rtw_netdev_priv(ndev);
+	struct rtw_wdev_priv *pwdev_priv = adapter_wdev_data(adapt);
 
 	RTW_INFO(FUNC_NDEV_FMT" - Start to Disconnect\n", FUNC_NDEV_ARG(ndev));
 
