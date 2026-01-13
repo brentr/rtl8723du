@@ -400,11 +400,12 @@ static int proc_get_rf_reg_dump(struct seq_file *m, void *v)
 
 static int proc_get_aid_status(struct seq_file *m, void *v)
 {
+#ifdef CONFIG_RTW_CONFIG
 	struct net_device *dev = m->private;
 	struct adapter *adapter = (struct adapter *)rtw_netdev_priv(dev);
 
 	dump_aid_status(m, adapter);
-
+#endif
 	return 0;
 }
 
@@ -2032,10 +2033,12 @@ static int proc_get_phy_cap(struct seq_file *m, void *v)
 
 static int proc_dump_rsvd_page(struct seq_file *m, void *v)
 {
+#ifdef CONFIG_RTW_CONFIG
 	struct net_device *dev = m->private;
 	struct adapter *adapter = (struct adapter *)rtw_netdev_priv(dev);
 
 	rtw_dump_rsvd_page(m, adapter, adapter->rsvd_page_offset, adapter->rsvd_page_num);
+#endif
 	return 0;
 }
 static ssize_t proc_set_rsvd_page_info(struct file *file, const char __user *buffer, size_t count, loff_t *pos, void *data)

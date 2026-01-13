@@ -2738,6 +2738,7 @@ ssize_t proc_set_ldpc_cap(struct file *file, const char __user *buffer, size_t c
 
 int proc_get_all_sta_info(struct seq_file *m, void *v)
 {
+#ifdef CONFIG_RTW_DEBUG
 	struct net_device *dev = m->private;
 	unsigned long irqL;
 	struct sta_info *psta;
@@ -2813,7 +2814,7 @@ int proc_get_all_sta_info(struct seq_file *m, void *v)
 	}
 
 	_exit_critical_bh(&pstapriv->sta_hash_lock, &irqL);
-
+#endif
 	return 0;
 }
 
@@ -3519,8 +3520,11 @@ ssize_t proc_set_lck(struct file *file, const char __user *buffer, size_t count,
 #endif /* CONFIG_DBG_RF_CAL */
 
 #endif /* CONFIG_PROC_DEBUG */
+
+
+#ifdef CONFIG_RTW_DEBUG
 #define RTW_BUFDUMP_BSIZE		16
-inline void RTW_BUF_DUMP_SEL(uint _loglevel, void *sel, u8 *_titlestring,
+void RTW_BUF_DUMP_SEL(uint _loglevel, void *sel, u8 *_titlestring,
 					bool _idx_show, const u8 *_hexdata, int _hexdatalen)
 {
 	int __i;
@@ -3549,3 +3553,4 @@ inline void RTW_BUF_DUMP_SEL(uint _loglevel, void *sel, u8 *_titlestring,
 		_RTW_PRINT_SEL(sel, "\n");
 	}
 }
+#endif

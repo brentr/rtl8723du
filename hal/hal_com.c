@@ -2937,6 +2937,7 @@ int rtw_hal_get_rsvd_page(struct adapter *adapter, u32 page_offset,
 
 void rtw_dump_rsvd_page(void *sel, struct adapter *adapter, u8 page_offset, u8 page_num)
 {
+#ifdef CONFIG_RTW_DEBUG
 	u32 page_size = 0;
 	u8 *buffer = NULL;
 	u32 buf_size = 0;
@@ -2962,6 +2963,7 @@ void rtw_dump_rsvd_page(void *sel, struct adapter *adapter, u8 page_offset, u8 p
 			RTW_PRINT_SEL(sel, "ERROR - Tx page size is zero ??\n");
 
 	RTW_PRINT_SEL(sel, "==========================\n");
+#endif
 }
 
 void rtw_hal_construct_beacon(struct adapter *adapt,

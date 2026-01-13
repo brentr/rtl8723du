@@ -33,7 +33,6 @@ enum {
 #define RTW_INFO_DUMP(_TitleString, _HexData, _HexDataLen) do {} while (0)
 #define RTW_DBG_DUMP(_TitleString, _HexData, _HexDataLen) do {} while (0)
 #define RTW_PRINT_DUMP(_TitleString, _HexData, _HexDataLen) do {} while (0)
-
 #define RTW_DBG_EXPR(EXPR) do {} while (0)
 
 #define RTW_DBGDUMP NULL /* 'stream' for _dbgdump */
@@ -51,12 +50,12 @@ enum {
 	#endif
 	#define _seqdump seq_printf
 
-void RTW_BUF_DUMP_SEL(uint _loglevel, void *sel, u8 *_titlestring,
-								bool _idx_show, const u8 *_hexdata, int _hexdatalen);
-
 #ifdef CONFIG_RTW_DEBUG
 
 extern uint rtw_drv_log_level;
+
+void RTW_BUF_DUMP_SEL(uint _loglevel, void *sel, u8 *_titlestring,
+								bool _idx_show, const u8 *_hexdata, int _hexdatalen);
 
 #if defined(_dbgdump)
 
@@ -163,11 +162,6 @@ extern uint rtw_drv_log_level;
 #undef RTW_DBG_EXPR
 #define RTW_DBG_EXPR(EXPR) do { if (_DRV_DEBUG_ <= rtw_drv_log_level) EXPR; } while (0)
 
-#endif /* defined(_dbgdump) */
-#endif /* CONFIG_RTW_DEBUG */
-
-
-#if defined(_seqdump)
 /* dump message to selected 'stream' with driver-defined prefix */
 #undef RTW_PRINT_SEL
 #define RTW_PRINT_SEL(sel, fmt, arg...) \
@@ -199,6 +193,7 @@ extern uint rtw_drv_log_level;
 	RTW_BUF_DUMP_SEL(_DRV_INFO_, sel, _TitleString, true, _HexData, _HexDataLen)
 #endif /* defined(_seqdump) */
 
+#endif /* CONFIG_RTW_DEBUG */
 
 #ifdef CONFIG_DBG_COUNTER
 	#define DBG_COUNTER(counter) counter++

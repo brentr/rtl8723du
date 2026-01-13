@@ -874,6 +874,7 @@ u16 rtw_aid_alloc(struct adapter *adapter, struct sta_info *sta)
 
 void dump_aid_status(void *sel, struct adapter *adapter)
 {
+#ifdef CONFIG_RTW_CONFIG
 	struct sta_priv *stapriv = &adapter->stapriv;
 	u8 *aid_bmp;
 	u16 i, used_cnt = 0;
@@ -897,6 +898,7 @@ void dump_aid_status(void *sel, struct adapter *adapter)
 	RTW_PRINT_SEL(sel, "%2d %11d\n", stapriv->rr_aid, stapriv->started_aid);
 
 	rtw_mfree(aid_bmp, stapriv->aid_bmp_len);
+#endif
 }
 
 #if CONFIG_RTW_MACADDR_ACL
