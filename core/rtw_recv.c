@@ -681,9 +681,9 @@ static int recv_decache(union recv_frame *precv_frame, u8 bretry)
  *	1. If old PN is 0, any PN is legal
  *	2. PN > old PN
  */
-#define PN_LESS_CHK(a, b)	(((a-b) & 0x800000000000L) != 0)
+#define PN_LESS_CHK(a, b)	(((a-b) & 0x800000000000ULL) != 0)
 #define VALID_PN_CHK(new, old)	(((old) == 0) || PN_LESS_CHK(old, new))
-#define CCMPH_2_KEYID(ch)	(((ch) & 0x00000000c0000000L) >> 30)
+#define CCMPH_2_KEYID(ch)	(((ch) & 0x00000000c0000000ULL) >> 30)
 static int recv_ucast_pn_decache(union recv_frame *precv_frame)
 {
 	struct rx_pkt_attrib *pattrib = &precv_frame->u.hdr.attrib;
@@ -729,14 +729,14 @@ int recv_bcast_pn_decache(union recv_frame *precv_frame)
 	u8 key_id;
 
 	if ((pattrib->encrypt == _AES_) &&
-		(check_fwstate(pmlmepriv, WIFI_STATION_STATE))) {		
+		(check_fwstate(pmlmepriv, WIFI_STATION_STATE))) {
 
 		tmp_iv_hdr = le64_to_cpu(*(__le64*)(pdata + pattrib->hdrlen));
 		key_id = CCMPH_2_KEYID(tmp_iv_hdr);
 		pkt_pn = CCMPH_2_PN(tmp_iv_hdr);
-	
+
 		curr_pn = le64_to_cpu(*(__le64*)psecuritypriv->iv_seq[key_id]);
-		curr_pn &= 0x0000ffffffffffffL;
+		curr_pn &= 0x0000ffffffffffffULL;
 
 		if (!VALID_PN_CHK(pkt_pn, curr_pn))
 			return _FAIL;
@@ -1328,7 +1328,7 @@ static int validate_mgmt_protect(struct adapter *adapter, union recv_frame *prec
 
 		if (subtype == WIFI_ACTION)
 			category = *(ptr + sizeof(struct rtw_ieee80211_hdr_3addr));
-	
+
 		if (is_bmc) {
 			/* broadcast cases */
 			if (subtype == WIFI_ACTION) {
@@ -1622,7 +1622,7 @@ static int validate_recv_data_frame(struct adapter *adapter, union recv_frame *p
 		if (recv_bcast_pn_decache(precv_frame) == _FAIL) {
 			ret = _FAIL;
 			goto exit;
-		}	
+		}
 
 		precv_frame->u.hdr.preorder_ctrl = NULL;
 	}

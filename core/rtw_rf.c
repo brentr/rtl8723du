@@ -306,13 +306,11 @@ u8 rtw_get_op_chs_by_cch_bw(u8 cch, u8 bw, u8 **op_chs, u8 *op_ch_num)
 	struct op_chs_ent_t *op_chs_ent = NULL;
 	u8 valid = 1;
 
-	if (cch <= 14
-		&& bw >= CHANNEL_WIDTH_20 && bw <= CHANNEL_WIDTH_40
+	if (cch <= 14 && bw <= CHANNEL_WIDTH_40
 	) {
 		c_chs_ent = &center_chs_2g_by_bw[bw];
 		op_chs_ent = &op_chs_of_cch_2g_by_bw[bw];
-	} else if (cch >= 36 && cch <= 177
-		&& bw >= CHANNEL_WIDTH_20 && bw <= CHANNEL_WIDTH_160
+	} else if (cch >= 36 && cch <= 177 && bw <= CHANNEL_WIDTH_160
 	) {
 		c_chs_ent = &center_chs_5g_by_bw[bw];
 		op_chs_ent = &op_chs_of_cch_5g_by_bw[bw];
@@ -1442,7 +1440,7 @@ static s8 rtw_rf_get_kfree_tx_gain_offset(struct adapter *adapt, u8 path, u8 ch)
 	if (kfree_data->flag & KFREE_FLAG_ON) {
 		kfree_offset = kfree_data->bb_gain[bb_gain_sel][path];
 		RTW_INFO("%s path:%s, ch:%u, bb_gain_sel:%d, kfree_offset:%d\n",
-			 __func__, (path == 0)?"S1":"S0", 
+			 __func__, (path == 0)?"S1":"S0",
 			 ch, bb_gain_sel, kfree_offset);
 	}
 exit:
@@ -1475,7 +1473,7 @@ void rtw_rf_set_tx_gain_offset(struct adapter *adapter, u8 path, s8 offset)
 		rtw_warn_on(1);
 		break;
 	}
-	
+
 	if (path == PPG_8723D_S1)
 		val32 = rtw_hal_read_rfreg(adapter, target_path, 0x55, 0xffffffff);
 	else if (path == PPG_8723D_S0)

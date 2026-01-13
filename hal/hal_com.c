@@ -1118,7 +1118,7 @@ void rtw_hal_c2h_pkt_pre_hdl(struct adapter *adapter, u8 *buf, u16 len)
 	}
 
 	hdl_here = rtw_hal_c2h_id_handle_directly(adapter, id, seq, plen, payload) ? 1 : 0;
-	if (hdl_here) 
+	if (hdl_here)
 		ret = rtw_hal_c2h_handler(adapter, id, seq, plen, payload);
 	else
 		ret = rtw_c2h_packet_wk_cmd(adapter, buf, len);
@@ -1396,7 +1396,7 @@ int c2h_defeature_dbg_hdl(struct adapter *adapter, u8 *data, u8 len)
 		RTW_PRINT("%s: 0x%02X\n", __func__, *(data + i));
 
 	ret = _SUCCESS;
-	
+
 exit:
 	return ret;
 }
@@ -2537,7 +2537,7 @@ void rtw_hal_rcr_set_chk_bssid(struct adapter *adapter, u8 self_action)
 		|| MSTATE_SCAN_ENTER_NUM(&mstate)
 		|| hal_data->in_cta_test
 	)
-		rcr_new &= ~RCR_CBSSID_BCN;	
+		rcr_new &= ~RCR_CBSSID_BCN;
 	else
 		rcr_new |= RCR_CBSSID_BCN;
 #endif /* CONFIG_MI_WITH_MBSSID_CAM */
@@ -4479,7 +4479,7 @@ u32 Hal_readPGDataFromConfigFile(struct adapter * adapt)
 	if (maplen < 256 || maplen > EEPROM_MAX_SIZE) {
 		RTW_ERR("eFuse length error :%d\n", maplen);
 		return false;
-	}	
+	}
 
 	ret = rtw_read_efuse_from_file(EFUSE_MAP_PATH, hal_data->efuse_eeprom_data, maplen);
 
@@ -4985,7 +4985,7 @@ inline bool hal_chk_wl_func(struct adapter *adapter, u8 func)
 	return GET_HAL_SPEC(adapter)->wl_func & func;
 }
 
-inline bool hal_is_band_support(struct adapter *adapter, u8 band)
+bool hal_is_band_support(struct adapter *adapter, u8 band)
 {
 	return GET_HAL_SPEC(adapter)->band_cap & band_to_band_cap(band);
 }

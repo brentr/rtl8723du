@@ -660,8 +660,10 @@ void rtw_phydm_ra_registed(struct adapter *adapter, struct sta_info *psta)
 	}
 
 	phydm_ra_registed(&hal_data->odmpriv, psta->cmn.mac_id, psta->cmn.rssi_stat.rssi);
+#ifdef CONFIG_RTW_DEBUG
 	if (_DRV_DEBUG_ <= rtw_drv_log_level)
 		dump_sta_info(RTW_DBGDUMP, psta);
+#endif
 }
 
 static u8 _rtw_phydm_rfk_condition_check(struct adapter *adapter)

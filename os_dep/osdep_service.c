@@ -438,12 +438,12 @@ inline void rtw_lock_resume_scan_timeout(u32 timeout_ms)
 	/* RTW_INFO("resume scan lock:%d\n", timeout_ms); */
 }
 
-inline void ATOMIC_SET(ATOMIC_T *v, int i)
+void ATOMIC_SET(ATOMIC_T *v, int i)
 {
 	atomic_set(v, i);
 }
 
-inline int ATOMIC_READ(ATOMIC_T *v)
+int ATOMIC_READ(ATOMIC_T *v)
 {
 	return atomic_read(v);
 }
@@ -1107,7 +1107,7 @@ int map_readN(const struct map_t *map, u16 offset, u16 len, u8 *buf)
 			else
 				c_len = seg->sa + seg->len - offset;
 		}
-			
+
 		memcpy(c_dst, c_src, c_len);
 	}
 

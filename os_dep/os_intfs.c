@@ -42,7 +42,7 @@ MODULE_PARM_DESC(rtw_ips_mode, "The default IPS mode");
 module_param(rtw_lps_level, int, 0644);
 MODULE_PARM_DESC(rtw_lps_level, "The default LPS level");
 
-/* LPS: 
+/* LPS:
  * rtw_smart_ps = 0 => TX: pwr bit = 1, RX: PS_Poll
  * rtw_smart_ps = 1 => TX: pwr bit = 0, RX: PS_Poll
  * rtw_smart_ps = 2 => TX: pwr bit = 0, RX: NullData with pwr bit = 0
@@ -1553,7 +1553,7 @@ void devobj_deinit(struct dvobj_priv *pdvobj)
 	rtw_mfree((u8 *)pdvobj, sizeof(*pdvobj));
 }
 
-inline u8 rtw_rtnl_lock_needed(struct dvobj_priv *dvobj)
+u8 rtw_rtnl_lock_needed(struct dvobj_priv *dvobj)
 {
 	if (dvobj->rtnl_lock_holder && dvobj->rtnl_lock_holder == current)
 		return 0;

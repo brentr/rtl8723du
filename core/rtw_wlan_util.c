@@ -332,7 +332,7 @@ void Set_MSR(struct adapter *adapt, u8 type)
 	rtw_hal_set_hwreg(adapt, HW_VAR_MEDIA_STATUS, (u8 *)(&type));
 }
 
-inline u8 rtw_get_oper_ch(struct adapter *adapter)
+u8 rtw_get_oper_ch(struct adapter *adapter)
 {
 	return adapter_to_dvobj(adapter)->oper_channel;
 }
@@ -859,7 +859,7 @@ inline void rtw_sec_cam_map_clr(struct sec_cam_bmp *map, u8 id)
 		rtw_warn_on(1);
 }
 
-inline void rtw_sec_cam_map_clr_all(struct sec_cam_bmp *map)
+void rtw_sec_cam_map_clr_all(struct sec_cam_bmp *map)
 {
 	map->m0 = 0;
 #if (SEC_CAM_ENT_NUM_SW_LIMIT > 32)
@@ -2904,7 +2904,7 @@ inline void rtw_macid_map_clr(struct macid_bmp *map, u8 id)
 		rtw_warn_on(1);
 }
 
-inline bool rtw_macid_is_used(struct macid_ctl_t *macid_ctl, u8 id)
+bool rtw_macid_is_used(struct macid_ctl_t *macid_ctl, u8 id)
 {
 	return rtw_macid_is_set(&macid_ctl->used, id);
 }
@@ -2942,7 +2942,7 @@ inline bool rtw_macid_is_iface_shared(struct macid_ctl_t *macid_ctl, u8 id)
 	return 0;
 }
 
-inline bool rtw_macid_is_iface_specific(struct macid_ctl_t *macid_ctl, u8 id, struct adapter *adapter)
+bool rtw_macid_is_iface_specific(struct macid_ctl_t *macid_ctl, u8 id, struct adapter *adapter)
 {
 	int i;
 	u8 iface_bmp = 0;

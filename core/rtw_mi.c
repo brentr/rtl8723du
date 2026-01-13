@@ -268,7 +268,7 @@ void dump_dvobj_mi_status(void *sel, const char *fun_name, struct adapter *adapt
 	dump_mi_status(sel, adapter_to_dvobj(adapter));
 }
 
-inline void rtw_mi_update_iface_status(struct mlme_priv *pmlmepriv, int state)
+void rtw_mi_update_iface_status(struct mlme_priv *pmlmepriv, int state)
 {
 	struct adapter *adapter = container_of(pmlmepriv, struct adapter, mlmepriv);
 	struct dvobj_priv *dvobj = adapter_to_dvobj(adapter);

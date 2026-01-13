@@ -1367,7 +1367,7 @@ void rtw_indicate_disconnect(struct adapter *adapt, u16 reason, u8 locally_gener
 	rtw_lps_ctrl_wk_cmd(adapt, LPS_CTRL_DISCONNECT, 1);
 }
 
-inline void rtw_indicate_scan_done(struct adapter *adapt, bool aborted)
+void rtw_indicate_scan_done(struct adapter *adapt, bool aborted)
 {
 	RTW_INFO(FUNC_ADPT_FMT"\n", FUNC_ADPT_ARG(adapt));
 
@@ -2199,7 +2199,7 @@ void rtw_sta_mstatus_disc_rpt(struct adapter *adapter, u8 mac_id)
 {
 	struct macid_ctl_t *macid_ctl = &adapter->dvobj->macid_ctl;
 
-	if (mac_id >= 0 && mac_id < macid_ctl->num) {
+	if (mac_id < macid_ctl->num) {
 		u8 id_is_shared = mac_id == RTW_DEFAULT_MGMT_MACID; /* TODO: real shared macid judgment */
 
 		RTW_INFO(FUNC_ADPT_FMT" - mac_id=%d%s\n", FUNC_ADPT_ARG(adapter)
@@ -2767,13 +2767,13 @@ exit:
 }
 
 
-inline bool rtw_is_scan_deny(struct adapter *adapter)
+bool rtw_is_scan_deny(struct adapter *adapter)
 {
 	struct mlme_priv *mlmepriv = &adapter->mlmepriv;
 	return (ATOMIC_READ(&mlmepriv->set_scan_deny) != 0) ? true : false;
 }
 
-inline void rtw_clear_scan_deny(struct adapter *adapter)
+void rtw_clear_scan_deny(struct adapter *adapter)
 {
 	struct mlme_priv *mlmepriv = &adapter->mlmepriv;
 	ATOMIC_SET(&mlmepriv->set_scan_deny, 0);
@@ -3921,20 +3921,20 @@ void rtw_append_exented_cap(struct adapter *adapt, u8 *out_ie, uint *pout_len)
 		pframe = rtw_set_ie(out_ie + *pout_len, EID_EXTCapability, 8, cap_content , pout_len);
 }
 
-inline void rtw_set_to_roam(struct adapter *adapter, u8 to_roam)
+void rtw_set_to_roam(struct adapter *adapter, u8 to_roam)
 {
 	if (to_roam == 0)
 		adapter->mlmepriv.to_join = false;
 	adapter->mlmepriv.to_roam = to_roam;
 }
 
-inline u8 rtw_dec_to_roam(struct adapter *adapter)
+u8 rtw_dec_to_roam(struct adapter *adapter)
 {
 	adapter->mlmepriv.to_roam--;
 	return adapter->mlmepriv.to_roam;
 }
 
-inline u8 rtw_to_roam(struct adapter *adapter)
+u8 rtw_to_roam(struct adapter *adapter)
 {
 	return adapter->mlmepriv.to_roam;
 }
@@ -4095,7 +4095,7 @@ static struct st_register wfd_st_reg = {
 	.rule = wfd_st_match_rule,
 };
 
-inline void rtw_wfd_st_switch(struct sta_info *sta, bool on)
+void rtw_wfd_st_switch(struct sta_info *sta, bool on)
 {
 	if (on)
 		rtw_st_ctl_register(&sta->st_ctl, SESSION_TRACKER_REG_ID_WFD, &wfd_st_reg);

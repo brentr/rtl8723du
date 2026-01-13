@@ -4660,7 +4660,7 @@ inline void rtw_wfd_set_ctrl_port(struct adapter *adapter, u16 port)
 		wfdinfo->tdls_rtsp_ctrlport = port;
 }
 
-inline void rtw_tdls_wfd_enable(struct adapter *adapter, bool on)
+void rtw_tdls_wfd_enable(struct adapter *adapter, bool on)
 {
 	struct wifi_display_info *wfdinfo = &adapter->wfd_info;
 

@@ -67,8 +67,6 @@ static void set_iqk_matrix_8723d(
 
 	if (OFDM_index >= OFDM_TABLE_SIZE)
 		OFDM_index = OFDM_TABLE_SIZE - 1;
-	else if (OFDM_index < 0)
-		OFDM_index = 0;
 
 	if ((iqk_result_x != 0) && (*(p_dm->p_band_type) == ODM_BAND_2_4G)) {
 
@@ -336,13 +334,9 @@ odm_tx_pwr_track_set_pwr_8723d(
 		/* Adjust BB swing by OFDM IQ matrix */
 		if (final_ofdm_swing_index >= pwr_tracking_limit_ofdm)
 			final_ofdm_swing_index = pwr_tracking_limit_ofdm;
-		else if (final_ofdm_swing_index < 0)
-			final_ofdm_swing_index = 0;
 
 		if (final_cck_swing_index >= CCK_TABLE_SIZE_8723D)
 			final_cck_swing_index = CCK_TABLE_SIZE_8723D - 1;
-		else if (p_rf_calibrate_info->bb_swing_idx_cck < 0)
-			final_cck_swing_index = 0;
 
 		set_iqk_matrix_8723d(p_dm, final_ofdm_swing_index, RF_PATH_A,
 			p_rf_calibrate_info->iqk_matrix_reg_setting[channel_mapped_index].value[0][0],
@@ -392,23 +386,6 @@ odm_tx_pwr_track_set_pwr_8723d(
 				/*	odm_set_tx_power_index_by_rate_section(p_dm, RF_PATH_A, p_hal_data->current_channel, HT_MCS0_MCS7);*/
 
 				ODM_RT_TRACE(p_dm, ODM_COMP_TX_PWR_TRACK, ODM_DBG_LOUD, ("******Path_A Over BBSwing Limit, pwr_tracking_limit = %d, Remnant tx_agc value = %d\n", pwr_tracking_limit_ofdm, p_rf_calibrate_info->remnant_ofdm_swing_idx[rf_path]));
-			} else if (final_ofdm_swing_index < 0) {
-				p_rf_calibrate_info->remnant_ofdm_swing_idx[rf_path] = final_ofdm_swing_index ;
-
-				set_iqk_matrix_8723d(p_dm, 0, RF_PATH_A,
-					p_rf_calibrate_info->iqk_matrix_reg_setting[channel_mapped_index].value[0][0],
-					p_rf_calibrate_info->iqk_matrix_reg_setting[channel_mapped_index].value[0][1]);
-				set_iqk_matrix_8723d(p_dm, 0, RF_PATH_B,
-					p_rf_calibrate_info->iqk_matrix_reg_setting[channel_mapped_index].value[0][4],
-					p_rf_calibrate_info->iqk_matrix_reg_setting[channel_mapped_index].value[0][5]);
-
-				p_rf_calibrate_info->modify_tx_agc_flag_path_a = true;
-
-				/*Set tx_agc Page C{};*/
-				/*odm_set_tx_power_index_by_rate_section(p_dm, RF_PATH_A, p_hal_data->current_channel, OFDM);*/
-				/*	odm_set_tx_power_index_by_rate_section(p_dm, RF_PATH_A, p_hal_data->current_channel, HT_MCS0_MCS7);*/
-
-				ODM_RT_TRACE(p_dm, ODM_COMP_TX_PWR_TRACK, ODM_DBG_LOUD, ("******Path_A Lower then BBSwing lower bound  0, Remnant tx_agc value = %d\n", p_rf_calibrate_info->remnant_ofdm_swing_idx[rf_path]));
 			} else {
 				set_iqk_matrix_8723d(p_dm, final_ofdm_swing_index, RF_PATH_A,
 					p_rf_calibrate_info->iqk_matrix_reg_setting[channel_mapped_index].value[0][0],
@@ -472,19 +449,6 @@ odm_tx_pwr_track_set_pwr_8723d(
 				/*Set tx_agc Page C{};*/
 				/*	odm_set_tx_power_index_by_rate_section(p_dm, RF_PATH_A, p_hal_data->current_channel, CCK);
 					odm_set_tx_power_index_by_rate_section(p_dm, RF_PATH_B, p_hal_data->current_channel, CCK);*/
-
-			} else if (final_cck_swing_index < 0) {
-				p_rf_calibrate_info->remnant_cck_swing_idx = final_cck_swing_index;
-
-				ODM_RT_TRACE(p_dm, ODM_COMP_TX_PWR_TRACK, ODM_DBG_LOUD, ("******Path_A CCK Under Limit, pwr_tracking_limit_cck = %d, p_dm->remnant_cck_swing_idx  = %d\n", 0, p_rf_calibrate_info->remnant_cck_swing_idx));
-
-				odm_set_bb_reg(p_dm, 0xab4, 0x000007FF, cck_swing_table_ch1_ch14_8723d[0]);
-
-				p_rf_calibrate_info->modify_tx_agc_flag_path_a_cck = true;
-
-
-				/*odm_set_tx_power_index_by_rate_section(p_dm, RF_PATH_A, p_hal_data->current_channel, CCK);
-				odm_set_tx_power_index_by_rate_section(p_dm, RF_PATH_B, p_hal_data->current_channel, CCK);*/
 
 			} else {
 				ODM_RT_TRACE(p_dm, ODM_COMP_TX_PWR_TRACK, ODM_DBG_LOUD, ("******Path_A CCK Compensate with BBSwing, final_cck_swing_index = %d\n", final_cck_swing_index));
@@ -1691,7 +1655,7 @@ static void _phy_check_coex_status_8723d(struct PHY_DM_STRUCT *p_dm,
 		}
 
 		if (count >= 30000)
-			RT_TRACE(COMP_INIT, DBG_LOUD, ("[IQK]Waiting BT IQK finish time out! count(%d)", count));		
+			RT_TRACE(COMP_INIT, DBG_LOUD, ("[IQK]Waiting BT IQK finish time out! count(%d)", count));
 	} else {
 		/* Set H2C cmd to inform FW (disable). */
 		h2c_parameter = 0;
@@ -1744,7 +1708,7 @@ static void _phy_iq_calibrate_8723d(struct PHY_DM_STRUCT *p_dm, s32 result[][8],
 	};
 	u32 cnt_iqk_fail = 0;
 	u32 retry_count;
-	
+
 	if (*(p_dm->p_mp_mode))
 		retry_count = 9;
 	else
@@ -2062,7 +2026,7 @@ phy_iq_calibrate_8723d(
 	iqk_fail_a= p_dm->n_iqk_fail_cnt;
 	if( iqk_fail_a - iqk_fail_b > 0 )
 		RT_TRACE(COMP_INIT, DBG_LOUD, ("[8723dIQK]n_iqk_fail_cnt+,IQK restore to default value !\n"));
-	
+
 	regc80 = odm_get_bb_reg(p_dm, 0xc80, MASKDWORD);
 	regc94 = odm_get_bb_reg(p_dm, 0xc94, MASKDWORD);
 	regc14 = odm_get_bb_reg(p_dm, 0xc14, MASKDWORD);

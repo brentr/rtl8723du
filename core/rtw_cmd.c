@@ -203,7 +203,7 @@ void _rtw_free_cmd_priv(struct	cmd_priv *pcmdpriv)
  *
  * rtw_enqueue_cmd can only be called between kernel thread,
  * since only spin_lock is used.
- * 
+ *
  * ISR/Call-Back functions can't call this sub-function.
  */
 int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj, bool to_head)
@@ -1120,13 +1120,13 @@ static void rtw_ft_validate_akm_type(struct adapter  *adapt,
 
 	/*IEEE802.11-2012 Std. Table 8-101¡XAKM suite selectors*/
 	if (rtw_ft_valid_akm(adapt, psecuritypriv->rsn_akm_suite_type)) {
-		ptmp = rtw_get_ie(&pnetwork->network.IEs[12], 
+		ptmp = rtw_get_ie(&pnetwork->network.IEs[12],
 				_MDIE_, &tmp_len, (pnetwork->network.IELength-12));
 		if (ptmp) {
 			pft_roam->mdid = *(u16 *)(ptmp+2);
 			pft_roam->ft_cap = *(ptmp+4);
 
-			RTW_INFO("FT: target " MAC_FMT " mdid=(0x%2x), capacity=(0x%2x)\n", 
+			RTW_INFO("FT: target " MAC_FMT " mdid=(0x%2x), capacity=(0x%2x)\n",
 				MAC_ARG(pnetwork->network.MacAddress), pft_roam->mdid, pft_roam->ft_cap);
 			rtw_ft_set_flags(adapt, RTW_FT_PEER_EN);
 
@@ -1141,7 +1141,7 @@ static void rtw_ft_validate_akm_type(struct adapter  *adapt,
 		/* It could be a non-FT connection */
 		rtw_ft_clr_flags(adapt, (RTW_FT_PEER_EN|RTW_FT_PEER_OTD_EN));
 		rtw_ft_reset_status(adapt);
-	}	
+	}
 }
 #endif
 
@@ -2258,7 +2258,7 @@ static void dynamic_update_bcn_check(struct adapter *adapt)
 
 		if (false != ATOMIC_READ(&pmlmepriv->olbc)
 			&& false != ATOMIC_READ(&pmlmepriv->olbc_ht)) {
-					
+
 			if (rtw_ht_operation_update(adapt) > 0) {
 				update_beacon(adapt, _HT_CAPABILITY_IE_, NULL, false);
 				update_beacon(adapt, _HT_ADD_INFO_IE_, NULL, true);
@@ -3331,7 +3331,7 @@ exit:
 	return res;
 }
 
-inline u8 session_tracker_chk_cmd(struct adapter *adapter, struct sta_info *sta)
+u8 session_tracker_chk_cmd(struct adapter *adapter, struct sta_info *sta)
 {
 	return session_tracker_cmd(adapter, ST_CMD_CHK, sta, NULL, NULL, NULL, NULL);
 }

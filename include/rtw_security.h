@@ -20,8 +20,8 @@
 #define IEEE80211W_WRONG_KEY	0x1
 #define IEEE80211W_NO_KEY		0x2
 
-#define CCMPH_2_PN(ch)	((ch) & 0x000000000000ffffL) \
-			| (((ch) & 0xffffffff00000000L) >> 16)
+#define CCMPH_2_PN(ch)	((ch) & 0x000000000000ffffULL) \
+			| (((ch) & 0xffffffff00000000ULL) >> 16)
 
 #define is_wep_enc(alg) (((alg) == _WEP40_) || ((alg) == _WEP104_))
 
