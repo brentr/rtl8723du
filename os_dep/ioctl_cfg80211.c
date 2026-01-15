@@ -2797,7 +2797,7 @@ static int cfg80211_rtw_leave_ibss(struct wiphy *wiphy, struct net_device *ndev)
 	}
 
 leave_ibss:
-//FIX_ME	rtw_wdev_set_not_indic_disco(pwdev_priv, 0);
+	rtw_wdev_set_not_indic_disco(pwdev_priv, 0);
 
 	return 0;
 }
